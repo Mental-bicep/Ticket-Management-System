@@ -51,6 +51,16 @@ body{
     /* border: 0.3px solid magenta; */
 }
 
+.box:hover{
+    background-color: #161718d8;   
+    transition:cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.priority-active{
+    background-color: #161718d8;
+    width:20%;
+}
+
 .inner-box{
     width: 65%;
     height:65%;
@@ -87,6 +97,12 @@ body{
     align-items: center;
     font-size: 1.7rem;
     /* font-size: 5rem; */
+}
+
+.plus-box:hover,.cross-box:hover{
+    background-color: #161718d8;
+    transition:cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    /* animation: ; */
 }
 
 .active{
@@ -172,7 +188,8 @@ body{
     width: 18vw;
     height: 22vh;
     background-color: rgb(248, 248, 248);
-     margin-top: 4.5vh;
+    /* background-color: rgba(235, 235, 231, 0.651);  */
+    margin-top: 4.5vh;
     /* margin-left: 1.5vh;  */
     /* border: 1px solid red; */
 }

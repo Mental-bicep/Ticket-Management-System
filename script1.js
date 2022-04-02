@@ -3,7 +3,8 @@ let plusButton=document.querySelector(".plus-box");
 let secondContainer=document.querySelector(".second-part");
 let allColors=["pink","blue","green","black"]; 
 let crossButton=document.querySelector(".cross-box");
-
+let colorBoxes=document.querySelectorAll(".box");
+let colorBoxesClicked=[false,false,false,false];
 let deleteState=false;
 
 let taskArr=[];
@@ -15,6 +16,13 @@ if(localStorage.getItem("tasks")){
         createLocalStorageCard(taskArr[i].id,taskArr[i].color,taskArr[i].text);
     }
 }
+
+// for(let i=0;i<colorBoxes.length;++i){
+//     let ele=colorBoxes[i];
+//     ele.addEventListener("click",function(e){
+//         if()
+//     })
+// }
 
 let body=document.body;
 
@@ -103,13 +111,15 @@ function createCard(obj,text){
         childCard.classList.remove(currColor);
         childCard.classList.add(newColorStripOnCard);
 
-        updateLocalStorage(card);  //! updates local storage
+        updateLocalStorage(div);  //! updates local storage
 
     }) 
 
-    // div.querySelector(".card-content").addEventListener("keydown",function(){
-        
-    // })
+    div.querySelector(".card-content").addEventListener("keyup",function(e){
+        if(deleteState) return ;
+        updateLocalStorage(div);
+        updateLocalStorage(div);  
+    })
 
     return div;
 }
@@ -143,6 +153,7 @@ function AddToLocalStoage(card){
 }
     
 function removeFromLocalStorage(card){
+    console.log("called");
     let id=card.querySelector(".uid").textContent;
     let newArr=taskArr.filter(ele => ele.id!=id);
     taskArr=newArr;
@@ -150,12 +161,13 @@ function removeFromLocalStorage(card){
 }
 
 function updateLocalStorage(card){
+    console.log("inside update function");
     let priorityColor=card.querySelector(".priority-color").classList[1];
     let id=card.querySelector(".uid").textContent;
     let text=card.querySelector(".card-content").textContent;
     for(let i=0;i<taskArr.length;++i){
         if(taskArr[i].id==id){
-            taskArr[i].text=text;
+            taskArr[i].text=card.querySelector(".card-content").textContent;
             taskArr[i].color=priorityColor;
         }
     }
@@ -171,12 +183,14 @@ function createLocalStorageCard(id,color,text){
     <h4 class="uid">${id}</h4>
     <div class="card-content" contenteditable="true">${text}</div>`;
 
-    let body=document.body;
+    // let body=document.body;
     secondContainer.appendChild(div);
     console.log("card created ",div);
     div.addEventListener("click",function(e){
         if(deleteState && e.target.classList[0]!='priority-color') {
-            div.remove() ;
+            
+            div.remove();
+            removeFromLocalStorage(div);
         }
     });
 
@@ -191,8 +205,13 @@ function createLocalStorageCard(id,color,text){
         childCard.classList.remove(currColor);
         childCard.classList.add(newColorStripOnCard);
 
-        updateLocalStorage(card);  //! updates local storage
+        updateLocalStorage(div);  //! updates local storage
 
+    })
+
+    div.querySelector(".card-content").addEventListener("keyup",function(){
+        if(deleteState) return ;
+        updateLocalStorage(div);  
     })
 
 }
